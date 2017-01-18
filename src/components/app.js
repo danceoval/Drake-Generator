@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from'react-redux';
 
-export default class App extends Component {
+//Component 
+class App extends Component {
   
   componentDidMount(){
   	this.setState({
@@ -10,7 +12,10 @@ export default class App extends Component {
   }
 
   getCorpus = () => {
-  	return "I do not like them in a house. I do not like them  with a mouse. I do not like them here or there. I do not like them anywhere. I do not like green eggs and ham. I do not like them, Sam-I-am."
+  	axios.get('/')
+      .then(response => {
+        dispatch(receiveLyrics(response.data));
+      });
   }
 
   assembleVerse = () => {
@@ -51,19 +56,19 @@ export default class App extends Component {
 
   writeLine = (min_length) => {
   	let {corpus} = this.state
-  	let words = this.parseText(corpus);
-	let wordpairs = this.generateMarkov(corpus);
-	let word = this.randomlyChoose(words);
-	let phrase = [word]; // start the phrase
-	while(wordpairs[word]) {
-		let next_words = wordpairs[word];
-		word = this.randomlyChoose(next_words);
-		phrase.push(word);
-		if(phrase.length > min_length) {
-			break;
-		}
-	}
-	return phrase.join(' ');
+    let words = this.parseText(corpus);
+    let wordpairs = this.generateMarkov(corpus);
+    let word = this.randomlyChoose(words);
+    let phrase = [word]; // start the phrase
+    while(wordpairs[word]) {
+  		let next_words = wordpairs[word];
+  		word = this.randomlyChoose(next_words);
+  		phrase.push(word);
+  		if(phrase.length > min_length) {
+  			break;
+  		}
+  	}
+	 return phrase.join(' ');
   }
 
   newVerse() {
@@ -80,7 +85,7 @@ export default class App extends Component {
  	console.log('***', verse)
     return (
     	<div>
-	      <h1 onClick={()=>{this.newVerse()}}>New Verse</h1>
+	      <h1 onClick={()=>{this.newVerse()}}>Click for New Verse</h1>
 	      {
 	      	verse.map((line, index) => {
 	      		return <p key={index}>{line}</p>
@@ -90,3 +95,12 @@ export default class App extends Component {
     );
   }
 }
+
+// Container
+
+const mapState = ({ corpus }) => ({ corpus })
+
+const mapDispatch = { recieveLyrics }
+
+export default connect(mapState, mapDispatch)(App);
+

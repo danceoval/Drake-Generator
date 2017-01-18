@@ -8,7 +8,7 @@ export const receiveLyrics = lyrics => {
 }
 
 export const getLyrics = lyricId => {
-	let apiString = '';
+	let apiString = '/';
 	return dispatch => {
 	    axios.get(apiString)
 	      .then(response => {
