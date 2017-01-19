@@ -6,7 +6,7 @@ import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 
 import App from './components/app';
-import rootReducer from './redux';
+import rootReducer from './reducers';
 
 const appStore = createStore(rootReducer, applyMiddleware(thunk, createLogger()))
 	

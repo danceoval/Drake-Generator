@@ -3,6 +3,11 @@ var app = express();
 var db = require('./db.json');
 var path = require('path');
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.use(function (err, req, res, next) {
     console.error(err);
@@ -13,6 +18,8 @@ app.use(function (err, req, res, next) {
 // ROUTES
 
 app.get('/', function(req, res, next) {
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.setHeader('Content-Type', 'application/json');
   res.json(db)
 })

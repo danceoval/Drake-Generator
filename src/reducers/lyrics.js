@@ -12,30 +12,23 @@ const receiveLyrics = lyrics => ({
 
 
 //Dispatchers
-export const getLyrics = lyricId => dispatch => {
-  let apiString = '/';
+export const getLyrics = () => dispatch => {
+  let apiString = 'http://localhost:4000/';
   axios.get(apiString)
-  .then(response => {
-    dispatch(receiveLyrics(response.data));
-  });
+  .then(res => dispatch(receiveLyrics(res.data)));
 }
 
 //Reducers
 
-export default function reducer (corpus = '', action) {
+export default function reducer (lyrics = '', action) {
   switch (action.type) {
     
     case RECEIVE_LYRICS: 
-      return action.corpus;
+      return action.lyrics;
 
 
     default: 
-      return corpus;
+      return lyrics;
   }
+}
 
-
-const rootReducer = combineReducers({
-  lyrics: lyricsReducer
-});
-
-export default rootReducer;

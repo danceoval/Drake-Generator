@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from'react-redux';
+import { getLyrics } from '../reducers/lyrics'
 
 //Component 
 class App extends Component {
-  
+  constructor(props) {
+    super(props)
+  }
+
   componentDidMount(){
   	this.setState({
-  		corpus : this.getCorpus(),
+  		lyrics : this.getCorpus(),
   		verse: null
   	})
   }
 
-  getCorpus = () => {
-  	axios.get('/')
-      .then(response => {
-        dispatch(receiveLyrics(response.data));
-      });
+  getCorpus() {
+    this.props.getLyrics()
   }
 
   assembleVerse = () => {
@@ -34,20 +35,20 @@ class App extends Component {
   }
 
   generateMarkov = (corpus) => {
-	let markov = {};
-	let words = this.parseText(corpus);
+  	let markov = {};
+  	let words = this.parseText(corpus);
 
-	for (let i = 0; i < words.length - 1; i++) {
-	  let currentWord = words[i];
-	  let nextWord = words[i+1];
-	
-	  if (markov[currentWord]) {
-	   	markov[currentWord].push(nextWord);  // We've seen this word before
-	  } else {
-	    markov[currentWord] = [nextWord];
-	  }
-	}
-	return markov;
+  	for (let i = 0; i < words.length - 1; i++) {
+  	  let currentWord = words[i];
+  	  let nextWord = words[i+1];
+  	
+  	  if (markov[currentWord]) {
+  	   	markov[currentWord].push(nextWord);  // We've seen this word before
+  	  } else {
+  	    markov[currentWord] = [nextWord];
+  	  }
+  	}
+  	return markov;
   }
 
   randomlyChoose = (line) => {
@@ -55,20 +56,24 @@ class App extends Component {
   }
 
   writeLine = (min_length) => {
-  	let {corpus} = this.state
-    let words = this.parseText(corpus);
-    let wordpairs = this.generateMarkov(corpus);
-    let word = this.randomlyChoose(words);
-    let phrase = [word]; // start the phrase
-    while(wordpairs[word]) {
-  		let next_words = wordpairs[word];
-  		word = this.randomlyChoose(next_words);
-  		phrase.push(word);
-  		if(phrase.length > min_length) {
-  			break;
-  		}
-  	}
-	 return phrase.join(' ');
+
+  	let {lyrics} = this.state
+    console.log('l', this.state)
+  //   let corpus = lyrics.corpus
+  //   console.log('corpus', corpus)
+  //   let words = this.parseText(corpus);
+  //   let wordpairs = this.generateMarkov(corpus);
+  //   let word = this.randomlyChoose(words);
+  //   let phrase = [word]; // start the phrase
+  //   while(wordpairs[word]) {
+  // 		let next_words = wordpairs[word];
+  // 		word = this.randomlyChoose(next_words);
+  // 		phrase.push(word);
+  // 		if(phrase.length > min_length) {
+  // 			break;
+  // 		}
+  // 	}
+	 // return phrase.join(' ');
   }
 
   newVerse() {
@@ -78,8 +83,9 @@ class App extends Component {
   }
 
   render() { 
+  console.log('state', this.state)
  	if(!this.state){
- 		return null
+ 		return <h1>Lyrics!</h1>
  	}
  	const verse = this.assembleVerse();
  	console.log('***', verse)
@@ -98,9 +104,7 @@ class App extends Component {
 
 // Container
 
-const mapState = ({ corpus }) => ({ corpus })
+const mapDispatch = { getLyrics }
 
-const mapDispatch = { recieveLyrics }
-
-export default connect(mapState, mapDispatch)(App);
+export default connect(null, mapDispatch)(App);
 
