@@ -24,7 +24,7 @@ export default function reducer (lyrics = '', action) {
   switch (action.type) {
     
     case RECEIVE_LYRICS: 
-      return action.lyrics;
+      return action.lyrics.corpus;
 
 
     default: 

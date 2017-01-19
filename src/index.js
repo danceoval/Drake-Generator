@@ -8,10 +8,11 @@ import thunk from 'redux-thunk';
 import App from './components/app';
 import rootReducer from './reducers';
 
-const appStore = createStore(rootReducer, applyMiddleware(thunk, createLogger()))
-	
+const appStore = createStore(
+	rootReducer, 
+	applyMiddleware(thunk, createLogger())
+)
 
-//const createStoreWithMiddleware = applyMiddleware(thunk, createLogger())(createStore);
 
 ReactDOM.render(
   <Provider store={appStore}>

@@ -20,8 +20,8 @@ app.use(function (err, req, res, next) {
 app.get('/', function(req, res, next) {
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.setHeader('Content-Type', 'application/json');
-  res.json(db)
+	res.setHeader('Content-Type', 'application/json');
+	res.json(db)
 })
 
 
