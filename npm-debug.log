@@ -7,8 +7,8 @@
 6 silly lifecycle drake-generator@1.0.0~prestart: no script for prestart, continuing
 7 info lifecycle drake-generator@1.0.0~start: drake-generator@1.0.0
 8 verbose lifecycle drake-generator@1.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle drake-generator@1.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/dan/Desktop/drake_generator/node_modules/.bin:/usr/local/bin:/Users/dan/.yarn/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:/Users/dan/.node/bin:/usr/local/Cellar/postgresql/9.6.1/bin
-10 verbose lifecycle drake-generator@1.0.0~start: CWD: /Users/dan/Desktop/drake_generator
+9 verbose lifecycle drake-generator@1.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Applications/XAMPP/xamppfiles/htdocs/Drake-Generator/node_modules/.bin:/usr/local/bin:/Users/dsohval/anaconda/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/usr/local/opt/php56/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+10 verbose lifecycle drake-generator@1.0.0~start: CWD: /Applications/XAMPP/xamppfiles/htdocs/Drake-Generator
 11 silly lifecycle drake-generator@1.0.0~start: Args: [ '-c', 'node api.js' ]
 12 silly lifecycle drake-generator@1.0.0~start: Returned: code: 1  signal: null
 13 info lifecycle drake-generator@1.0.0~start: Failed to exec start script
@@ -23,8 +23,8 @@
 14 verbose stack     at maybeClose (internal/child_process.js:877:16)
 14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
 15 verbose pkgid drake-generator@1.0.0
-16 verbose cwd /Users/dan/Desktop/drake_generator
-17 error Darwin 16.0.0
+16 verbose cwd /Applications/XAMPP/xamppfiles/htdocs/Drake-Generator
+17 error Darwin 15.4.0
 18 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "start"
 19 error node v6.7.0
 20 error npm  v3.10.3
