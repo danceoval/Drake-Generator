@@ -26,8 +26,15 @@ app.use(function (err, req, res, next) {
 
 app.get('/', function(req, res, next) {
 	res.setHeader('Content-Type', 'application/json');
-  genius.song(378195).then(function(response) {
-    console.log('song', response.song.path); 
+  var songIds = [];
+  genius.search('Drake').then(function(response) {
+    var hits = response.hits;
+    hits.forEach(function(hit) {
+      songIds.push(hit.result['id'])
+    })
+    return genius.song(songIds[2]);
+  })
+  .then(function(response) { 
     var songPath = 'https://genius.com' + response.song.path;
     request(songPath, function(error, response, html){
         if(!error){
