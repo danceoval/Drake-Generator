@@ -5,7 +5,8 @@ var path = require('path');
 var http = require('http');
 var api = require('genius-api');
 var fs = require('fs');
-var request = require('request');
+var request = require('request-promise');
+var Promise = require("bluebird");
 var cheerio = require('cheerio')
 var token = "F-rW2gY238QcxQ9oo3G75kNphoq7gsBiwWy1npm0u5PcKvQxGHFQYobR_jgsdXgD"
 var genius = new api(process.env.GENIUS_CLIENT_ACCESS_TOKEN || token);
@@ -22,36 +23,67 @@ app.use(function (err, req, res, next) {
 });
 
 
-// ROUTES
 
+// ROUTES
 app.get('/', function(req, res, next) {
 	res.setHeader('Content-Type', 'application/json');
-  var songIds = [];
+  var options = []
+  var lyricsSet = [];
+  function parseLyrics($) {
+    $('.lyrics').filter(function(){
+      var data = $(this);
+      var songLyrics = data.text();
+      lyricsSet.push(songLyrics)
+    })
+  }
   genius.search('Drake').then(function(response) {
     var hits = response.hits;
+    var promises = []
     hits.forEach(function(hit) {
-      songIds.push(hit.result['id'])
+      var id = hit.result['id']
+      promises.push(genius.song(id));
     })
-    return genius.song(songIds[2]);
+    return Promise.all(promises)
   })
-  .then(function(response) { 
-    var songPath = 'https://genius.com' + response.song.path;
-    request(songPath, function(error, response, html){
-        if(!error){
-          var $ = cheerio.load(html);
-          $('.lyrics').filter(function(){
-              var data = $(this);
-              console.log('d',data.text())
-          })
-        } else {
-          console.log('err', error)
-          return
+  .then(function(songs) { 
+    if(songs.length > 5) {
+      songs = songs.slice(0,5)
+    }
+    songs.forEach(function(song) {
+      var o = {
+        uri: song.song.url,
+        transform: function (body) {
+            return cheerio.load(body);
         }
-    })
-  
+      }
+      options.push(o);
+    });
+    return request(options[0])
+  })
+  .then(function($){
+    parseLyrics($);
+    return request(options[1])
+  })
+  .then(function($){
+    parseLyrics($);
+    return request(options[2])
+  })
+  .then(function($){
+    parseLyrics($);
+    return request(options[3])
+  })
+  .then(function($){
+    parseLyrics($);
+    return request(options[4])
+  })
+  .then(function($){
+    parseLyrics($);
+    console.log('FINALLY!!!!', lyricsSet)
+  })
+  .catch(function(err){
+    console.log('ERR: ', err)
   })
 })
-
 
 
 // SERVER
