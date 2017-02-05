@@ -30,7 +30,7 @@ app.get('/', function(req, res, next) {
   var options = []
   var lyricsSet = [];
   function parseLyrics($) {
-    $('.lyrics').filter(function(){
+    $('.song_body-lyrics .lyrics p').filter(function(){
       var data = $(this);
       var songLyrics = data.text();
       lyricsSet.push(songLyrics)
@@ -78,7 +78,8 @@ app.get('/', function(req, res, next) {
   })
   .then(function($){
     parseLyrics($);
-    console.log('FINALLY!!!!', lyricsSet)
+    var corpus = lyricsSet.join('');
+    res.json({ "corpus" : corpus })
   })
   .catch(function(err){
     console.log('ERR: ', err)
