@@ -37,7 +37,7 @@ class App extends Component {
   	  let nextWord = words[i+1];
   	
   	  if (markov[currentWord]) {
-  	   	markov[currentWord].push(nextWord);  // We've seen this word before
+  	   	markov[currentWord].push(nextWord);
   	  } else {
   	    markov[currentWord] = [nextWord];
   	  }
@@ -74,11 +74,10 @@ class App extends Component {
   }
 
   render() { 
-    console.log("props and state", this.props, this.state)
- 	if(!this.state){
- 		return null
- 	}
- 	const verse = this.assembleVerse();
+   	if(!this.state){
+   		return null
+   	}
+   	const verse = this.assembleVerse();
     return (
     	<div>
 	      <h1 onClick={()=>{this.newVerse()}}>Click for New Verse</h1>
@@ -93,10 +92,7 @@ class App extends Component {
 }
 
 // Container
-
 const mapState = ({lyrics}) => {
-  //console.log('state in map', state)
-  //let {lyrics} = state
   return {lyrics}
 }
 

@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-var db = require('./db.json');
 var path = require('path');
 var http = require('http');
 var api = require('genius-api');
@@ -22,21 +21,20 @@ app.use(function (err, req, res, next) {
     res.status(500).send(err.message);
 });
 
-
-
 // ROUTES
 app.get('/', function(req, res, next) {
 	res.setHeader('Content-Type', 'application/json');
-  var options = []
+  var options = [];
   var lyricsSet = [];
-  function parseLyrics($) {
+  function parseLyrics($) { // cheerio parser
     $('.song_body-lyrics .lyrics p').filter(function(){
       var data = $(this);
       var songLyrics = data.text();
       lyricsSet.push(songLyrics)
     })
   }
-  genius.search('Drake').then(function(response) {
+  //Scrape Genius for artist
+  genius.search('Wocka Flocka').then(function(response) {
     var hits = response.hits;
     var promises = []
     hits.forEach(function(hit) {
@@ -85,6 +83,7 @@ app.get('/', function(req, res, next) {
     console.log('ERR: ', err)
   })
 })
+
 
 
 // SERVER
