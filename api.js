@@ -21,20 +21,22 @@ app.use(function (err, req, res, next) {
     res.status(500).send(err.message);
 });
 
+function parseLyrics($, set = []) { // cheerio parser
+  $('.song_body-lyrics .lyrics p').filter(function(){
+    var data = $(this);
+    var songLyrics = data.text();
+    set.push(songLyrics)
+  })
+}
+
 // ROUTES
 app.get('/', function(req, res, next) {
 	res.setHeader('Content-Type', 'application/json');
   var options = [];
   var lyricsSet = [];
-  function parseLyrics($) { // cheerio parser
-    $('.song_body-lyrics .lyrics p').filter(function(){
-      var data = $(this);
-      var songLyrics = data.text();
-      lyricsSet.push(songLyrics)
-    })
-  }
+  
   //Scrape Genius for artist
-  genius.search('Wocka Flocka').then(function(response) {
+  genius.search('Mitski').then(function(response) {
     var hits = response.hits;
     var promises = []
     hits.forEach(function(hit) {
@@ -59,7 +61,7 @@ app.get('/', function(req, res, next) {
     return request(options[0])
   })
   .then(function($){
-    parseLyrics($);
+    parseLyrics($, lyricsSet);
     return request(options[1])
   })
   .then(function($){
@@ -67,15 +69,15 @@ app.get('/', function(req, res, next) {
     return request(options[2])
   })
   .then(function($){
-    parseLyrics($);
+    parseLyrics($, lyricsSet);
     return request(options[3])
   })
   .then(function($){
-    parseLyrics($);
+    parseLyrics($, lyricsSet);
     return request(options[4])
   })
   .then(function($){
-    parseLyrics($);
+    parseLyrics($, lyricsSet);
     var corpus = lyricsSet.join('');
     res.json({ "corpus" : corpus })
   })

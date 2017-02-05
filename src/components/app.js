@@ -16,7 +16,7 @@ class App extends Component {
   assembleVerse = () => {
   	let verse = []
   	for(var i = 0; i < 6; i++) {
-  		let len = Math.floor(Math.random() * 10) + 1;
+  		let len = Math.floor(Math.random() * 25) + 5;
   		let line = this.writeLine(len)
   		verse.push(line)
   	}
