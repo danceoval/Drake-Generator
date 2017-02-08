@@ -74,18 +74,28 @@ class App extends Component {
   }
 
   render() { 
+    console.log('props', this.props)
    	if(!this.state){
    		return null
    	}
    	const verse = this.assembleVerse();
     return (
-    	<div>
-	      <h1 onClick={()=>{this.newVerse()}}>Click for New Verse</h1>
-	      {
-	      	verse.map((line, index) => {
-	      		return <p key={index}>{line}</p>
-	      	})
-	      }
+
+      <div>
+      { this.props.lyrics ?
+        <div>
+  	      <h1 onClick={()=>{this.newVerse()}}>Click for New Verse</h1>
+  	      {
+  	      	verse.map((line, index) => {
+  	      		return <p key={index}>{line}</p>
+  	      	})
+  	      }
+        </div>  
+        : <div>
+            <h1> Generating Lyrics... </h1>
+            <img src="../../img/loading-spinner.gif" alt="loading" />
+          </div>
+      }
 	    </div>  
     );
   }

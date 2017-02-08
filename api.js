@@ -36,7 +36,7 @@ app.get('/', function(req, res, next) {
   var lyricsSet = [];
   
   //Scrape Genius for artist
-  genius.search('Mitski').then(function(response) {
+  genius.search('Bob Dylan').then(function(response) {
     var hits = response.hits;
     var promises = []
     hits.forEach(function(hit) {
