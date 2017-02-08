@@ -84,7 +84,7 @@ class App extends Component {
       <div>
       { this.props.lyrics ?
         <div>
-  	      <h1 onClick={()=>{this.newVerse()}}>Click for New Verse</h1>
+  	      <div className="btn btn-warning" onClick={()=>{this.newVerse()}}>Click for New Verse</div>
   	      {
   	      	verse.map((line, index) => {
   	      		return <p key={index}>{line}</p>

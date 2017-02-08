@@ -7,8 +7,8 @@ var fs = require('fs');
 var request = require('request-promise');
 var Promise = require("bluebird");
 var cheerio = require('cheerio')
-var token = "F-rW2gY238QcxQ9oo3G75kNphoq7gsBiwWy1npm0u5PcKvQxGHFQYobR_jgsdXgD"
-var genius = new api(process.env.GENIUS_CLIENT_ACCESS_TOKEN || token);
+var secrets = require('./secrets.json');
+var genius = new api(secrets.GENIUS_CLIENT_ACCESS_TOKEN);
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -20,14 +20,6 @@ app.use(function (err, req, res, next) {
     console.error(err);
     res.status(500).send(err.message);
 });
-
-function parseLyrics($, set = []) { // cheerio parser
-  $('.song_body-lyrics .lyrics p').filter(function(){
-    var data = $(this);
-    var songLyrics = data.text();
-    set.push(songLyrics)
-  })
-}
 
 // ROUTES
 app.get('/', function(req, res, next) {
@@ -86,7 +78,13 @@ app.get('/', function(req, res, next) {
   })
 })
 
-
+function parseLyrics($, set = []) { // cheerio parser
+  $('.song_body-lyrics .lyrics p').filter(function(){
+    var data = $(this);
+    var songLyrics = data.text();
+    set.push(songLyrics)
+  })
+}
 
 // SERVER
 var port = process.env.PORT || 4000
