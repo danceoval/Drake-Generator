@@ -25,7 +25,11 @@ class App extends Component {
   
 
   parseText = (text) => {
-  	return text.toLowerCase().replace(/[^a-z\s]/ig, "").split(' ');
+  	return text
+            .toLowerCase()
+            .replace(/[^a-z\s]/ig, "")
+            .replace(new RegExp("verse"|"chorus"), "")
+            .split(' ');
   }
 
   generateMarkov = (corpus) => {
